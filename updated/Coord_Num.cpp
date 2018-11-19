@@ -1,4 +1,5 @@
 #include<iostream>
+#include <iomanip>
 #include<fstream>
 #include<string>
 #include<sstream>
@@ -1737,6 +1738,10 @@ void Coord_Num::MP2DDispersionCorrection() {
     cout << "   UCHF Contribution:  " << UCHF_total << endl;
     cout << "   CKS Contribution:  " << CKS_Total << endl;
     cout << "   MP2D dispersion correction:  " << Result << endl;
+    cout << "MP2D energies (Eh)" << endl;
+    cout << "   UCHF Contribution Eh:  " << std::setprecision (12) << UCHF_total / 627.5095 << endl;
+    cout << "   CKS Contribution Eh:  " << CKS_Total / 627.5095 << endl;
+    cout << "   MP2D dispersion correction Eh:  " << Result / 627.5095 << endl;
     cout << "" << endl;
     cout << "" << endl; 
 
@@ -1915,10 +1920,10 @@ void Coord_Num::GetGradient() {
 
     for (int i =0; i<Ntot; i++ ) {
         
-        printf ("%*f %*f %*f \n", 15, Gradient_V[3*i]/(627.5095*1.8897259886), 15, Gradient_V[3*i+1]/(627.5095*1.8897259886), 15, Gradient_V[3*i+2]/(627.5095*1.8897259886));
+        printf ("%20.12f %20.12f %20.12f \n", 15, Gradient_V[3*i]/(627.5095*1.8897259886), 15, Gradient_V[3*i+1]/(627.5095*1.8897259886), 15, Gradient_V[3*i+2]/(627.5095*1.8897259886));
     
         // The gradients are converted to hartree/Bohr so that PSI4 can use the gradients
-        myfile << Gradient_V[3*i]/(627.5095*1.8897259886) << "     " << Gradient_V[3*i+1]/(627.5095*1.8897259886) << "     " << Gradient_V[3*i+2]/(627.5095*1.8897259886) << endl;
+        myfile << std::setprecision (12) << Gradient_V[3*i]/(627.5095*1.8897259886) << "     " << Gradient_V[3*i+1]/(627.5095*1.8897259886) << "     " << Gradient_V[3*i+2]/(627.5095*1.8897259886) << endl;
 
         // For the Root Mean Square Gradient       
         sum_sq += (Gradient_V[3*i]*Gradient_V[3*i] + Gradient_V[3*i+1]*Gradient_V[3*i+1] + Gradient_V[3*i+2]*Gradient_V[3*i+2]);
