@@ -76,22 +76,24 @@ Coord_Num::~Coord_Num() {
 
 void Coord_Num::GetParameters(ifstream& infile) {
   
-    ifstream inFile;  
+    ifstream inFile;
     string psiP;
-    psiP = getenv("PARAMPATH");
-    if (psiP.empty()) {
-        printf("No path provided, please set a PSIPATH variable that leads to this directory");    
+    if(getenv("MP2D_PARAMPATH")) {
+        psiP = getenv("MP2D_PARAMPATH");
+    } else {
+        psiP = "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/mp2d/";
     }
     string file2 = "/Params.txt";
     string path = psiP +file2;
 
+    cout << "MP2D parameters file: " << path << endl;
+
     inFile.open(path.c_str());
     string line;
-
     string a, b, c, d, e;
 
     if (!inFile) {
-        cerr << "Unable ot open file Params.txt" << endl;
+        cerr << "Unable to open file Params.txt" << endl;
         exit (1);
     }
     while (getline(inFile, line)) {
@@ -456,18 +458,20 @@ void Coord_Num::GetC6Coefficients() {
 
     ifstream inFile2;
     string psiP;
-    psiP = getenv("MP2D_C6PATH");
-    if (psiP.empty()) {
-        printf("No path provided, please set a PSIPATH variable that leads to this directory");    
+    if(getenv("MP2D_C6PATH")) {
+        psiP = getenv("MP2D_C6PATH");
+    } else {
+        psiP = "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/mp2d/";
     }
     string file1 = "/GrimmeC6.txt";
-    string path = psiP + file1;
+    string path = psiP +file1;
+
+    cout << "MP2D C6 coefficient file CKS: " << path << endl;
 
     inFile2.open(path.c_str());
-    //inFile2.open("/home/chandemonium/MP2D_Program/DEVELOPMENT/DEV_2/GrimmeC6.txt");
     string line2;
     if (!inFile2) {
-        cerr << "unable to open file GrimmeC6.txt" << endl;
+        cerr << "Unable to open file GrimmeC6.txt" << endl;;
         exit (1);
     }
 
@@ -521,12 +525,15 @@ void Coord_Num::GetC6Coefficients() {
 
     ifstream inFile;
     string psiP2;
-    psiP2 = getenv("MP2D_UCHFPATH");
-    if (psiP2.empty()) {
-        printf("No path provided, please set a PSIPATH variable that leads to this directory");    
+    if(getenv("MP2D_UCHFPATH")) {
+        psiP2 = getenv("MP2D_UCHFPATH");
+    } else {
+        psiP2 = "@CMAKE_INSTALL_PREFIX@/@CMAKE_INSTALL_DATADIR@/mp2d/";
     }
     string file2 = "/UCHF_daug_C6.txt";
     string path2 = psiP2 +file2;
+
+    cout << "MP2D C6 coefficient file UCHF: " << path2 << endl;
 
     inFile.open(path2.c_str());
     string line;
@@ -1694,8 +1701,8 @@ double Coord_Num::GetUCHFC8Energy() {
 
 void Coord_Num::MP2DDispersionCorrection() {
 
-    string UCHFPATH = getenv("MP2D_UCHFPATH");
-    string CKSPATH = getenv("MP2D_C6PATH");
+    //string UCHFPATH = getenv("MP2D_UCHFPATH");
+    //string CKSPATH = getenv("MP2D_C6PATH");
 
     double E_CKS = GetCKSEnergy();
   
@@ -1723,9 +1730,9 @@ void Coord_Num::MP2DDispersionCorrection() {
     cout << "J. Chem. Theory Comput. (2018).  DOI: 10.1021/acs.jctc.8b00548" << endl;
     cout << "" << endl;
 
-    cout << "MP2D C6 coefficient files:" << endl;
-    cout << "   UCHF: " << UCHFPATH << "/UCHF_daug_C6.txt" << endl;
-    cout << "   CKS:  " << CKSPATH << "/GrimmeC6.txt" <<  endl;
+    //cout << "MP2D C6 coefficient files:" << endl;
+    //cout << "   UCHF: " << UCHFPATH << "/UCHF_daug_C6.txt" << endl;
+    //cout << "   CKS:  " << CKSPATH << "/GrimmeC6.txt" <<  endl;
     cout << "" << endl;
     cout << "MP2D empirical parameters:" << endl;
     cout << "   s8    = " << s_8 << endl;
