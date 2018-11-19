@@ -29,13 +29,13 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 #    - C++ compiler
 
 ############################  Options: Build How?  #############################
-include(GNUInstallDirs)
 include(psi4OptionsTools)
-include(autocmake_safeguards)
 
 option_with_default(CMAKE_BUILD_TYPE "Build type (Release or Debug)" Release)
 
 #################################  Main Project  ################################
+include(GNUInstallDirs)
+include(autocmake_safeguards)
 
 # <<<  Build >>>
 
